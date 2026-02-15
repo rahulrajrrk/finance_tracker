@@ -1,0 +1,11 @@
+{
+  "name": "finance_tracker",
+  "version": "1.0.0",
+  "description": "A finance tracker application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'Error: no test specified' && exit 1"
+  },
+  "author": "rahulrajrrk",
+  "license": "ISC"
+}
