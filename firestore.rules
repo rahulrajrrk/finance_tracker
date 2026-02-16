@@ -1,0 +1,21 @@
+rules_version = '2';
+
+service cloud.firestore {
+  // Default access for all documents in the database.
+  match /databases/{database}/documents {
+    /**
+     * Checks whether the authenticated user is one of the two whitelisted
+     * email addresses (`hello@socialberries.in` or `rahul@socialberries.in`).
+     */
+    function isAuthorized() {
+      return request.auth != null &&
+             (request.auth.token.email == 'hello@socialberries.in' ||
+              request.auth.token.email == 'rahul@socialberries.in');
+    }
+
+    // Allow reads and writes on any document only for authorised users.
+    match /{document=**} {
+      allow read, write: if isAuthorized();
+    }
+  }
+}
