@@ -113,3 +113,55 @@ finance_tracker/
 ```
 
 > **Note:** This repository currently contains scaffolding files to get you started. Implementation of the complete functionality described above is an ongoing process. Refer to the `src` files in the backend and frontend directories for detailed code comments and TODOs.
+
+## Environment Setup & Deployment
+
+### Environment variables
+
+This project uses environment variables to configure Firebase credentials, the Telegram bot, and optional Gemini API access. A sample `.env.example` file is included in the repository. To set up your environment:
+
+1. Copy `.env.example` to `.env` in the project root and replace the placeholder values with your actual keys.
+2. Obtain a Firebase service account JSON file from your Firebase project (Project ID: my-finance-tracker-1fa3c) and populate the following variables:
+    - `FIREBASE_PROJECT_ID` – your Firebase project ID.
+    - `FIREBASE_CLIENT_EMAIL` – the `client_email` field from the service account JSON.
+    - `FIREBASE_PRIVATE_KEY` – the `private_key` field from the service account JSON (make sure to wrap the key in double quotes and replace line breaks with `\n`).
+3. Set `TELEGRAM_BOT_TOKEN` to your Telegram bot token.
+4. Set `GEMINI_API_KEY` if you plan to integrate Gemini features in the future.
+5. Optionally set `PORT` to change the Express server port (defaults to 3000).
+
+Never commit your `.env` file to source control. Keep all secrets in environment variables when deploying.
+
+### Firebase configuration
+
+- Ensure your Firestore database and Firebase Authentication are enabled in the `my-finance-tracker-1fa3c` project.
+- Use the Firebase CLI to deploy the provided security rules:
+  ```bash
+  firebase deploy --only firestore:rules
+  ```
+  This restricts access to the two authorised email addresses defined in the rules.
+- Create a service account in your Firebase project and download the JSON credentials. Use these credentials to populate the environment variables described above.
+
+### Running locally
+
+**Backend:**
+```bash
+cd backend
+npm install
+npm run build
+node dist/index.js
+```
+This will start the Express server and Telegram bot using the environment variables from `.env`.
+
+**Frontend:**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+This starts Vite's development server at `http://localhost:5173`. To build a production bundle, run `npm run build`; the static files will be generated in `dist`.
+
+### Deployment
+
+You can deploy the backend to any Node-compatible hosting provider (e.g., Render, Heroku, or a VM). Set the environment variables on the host according to your `.env` file. For Firebase Cloud Functions, wrap the Express app into a function and deploy via the Firebase CLI.
+
+The frontend can be deployed to a static hosting service such as Firebase Hosting, Netlify or Vercel. After running `npm run build` in the `frontend` folder, upload the contents of the `dist` folder to your chosen host.
