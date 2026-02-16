@@ -1,0 +1,13 @@
+# Environment and secrets
+.env
+
+# Node modules
+node_modules/
+
+# Build output
+dist/
+frontend/dist/
+backend/dist/
+
+# Logs
+*.log
